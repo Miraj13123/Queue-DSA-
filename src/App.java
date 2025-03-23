@@ -1,6 +1,6 @@
 
-//package src;
-//import lib.*;
+package src;
+import lib.*;
 import java.util.Scanner;
 //@SuppressWarnings("unused")
 
@@ -9,13 +9,6 @@ public class App {
     {
         queue obj = new queue(9);
         obj.app();
-    }
-}
-
-//lib is disabled for now, this class is from lib
-class console {
-    public static void clear() {
-        System.out.print("\033[H\033[2J");
     }
 }
 
@@ -32,6 +25,35 @@ class queue
         size = x;
         queue = new int[size];
         front = rear = -1;
+    }
+
+    private boolean isEmpty()
+    {
+        if(this.front == this.rear && this.rear == -1)
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    private boolean isFull() {
+        if (this.rear == this.size-1) {
+            return true;
+        } else {
+            return false;
+        }
+    }    
+
+    private int peek()
+    {
+        if(isEmpty())
+        {
+            return 0;
+        }else
+        {
+            return this.queue[this.front];
+        }
     }
 
     private void display()
@@ -59,6 +81,9 @@ class queue
             }
             System.out.print(" ]"); 
             System.out.println("");
+        }else if(isEmpty())
+        {
+            System.out.println("The queue is empty !!");
         }else
         {
             System.out.println("The queue is empty !!");
@@ -78,64 +103,37 @@ class queue
         }
         else
         {
-            this.rear ++;
-            queue[this.rear] = x;
+            if(this.rear < this.queue.length-1)
+            {
+                this.rear ++;
+                queue[this.rear] = x;
+            }
         }
     }
 
-    private void dequeue()
+    private int dequeue()
     {
-        //int j;
-        if(isEmpty() && this.front == this.rear)
+        int x;
+        if(isEmpty() )  //if the queue is empty
         {
-            return;
+            return -1;
         }
-        else if( !(isEmpty()) && this.front == this.rear)
+        else if( this.front == this.rear )
         {
-            //j = queue[this.front];
+            x = queue[this.front];
             queue[this.front] = 0;
             this.front = this.rear = -1;
         }
-        else if( !(isEmpty()) && (this.front != this.rear))
+        else if( (this.front != this.rear))
         {
-            //j = queue[this.front];
+            x = queue[this.front];
             queue[this.front] = 0;
             this.front +=1;
-        }
-        else
-        {
-            return;
-        }
-        return;
-    }
-
-    private int peek()
-    {
-        if(isEmpty())
-        {
-            return -1 ;
         }else
         {
-            return this.queue[this.front];
+            x = -1;
         }
-    }
-
-    private boolean isEmpty()
-    {
-        if(this.front == this.rear && this.rear == -1)
-        {
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    private boolean isFull() {
-        if (this.rear == this.size-1) {
-            return true;
-        } else {
-            return false;
-        }
+        return x;
     }
 
     private void menu()
@@ -159,40 +157,49 @@ class queue
         System.out.print("Enter Your Choice: ");
         String input = scan.nextLine();
 
-        if(input.equals("1"))
+        if(input.equals("1"))   //enqueue
         {
             console.clear();
-            System.out.print("Enter Integer number to add to the Queue: ");
-            String push = scan.nextLine();
-            this.enqueue(Integer.valueOf(push));
-            System.out.print("The value '"+push+"' is added to the rear position: "+(this.rear+1)+"\n");
+            if(isFull())
+            {
+                System.out.println("The queue is full !!");
+            }else
+            {
+                System.out.print("Enter Integer number to add to the Queue: ");
+                String push = scan.nextLine();
+                this.enqueue(Integer.valueOf(push));
+                System.out.print("The value '"+push+"' is added to the rear position: "+(this.rear+1)+"\n");
+            }
             this.menu();
         }
-        else if (input.equals("2"))
+        else if (input.equals("2"))   //dequeue
         {
             console.clear();
-            //System.out.print("Enter Integer number to add to the Stack: ");
-            //String push = scan.nextLine();
             if(!(isEmpty()))
             {
-                dequeue();
-                System.out.println("One data is removed from the front !!");
+                int x = dequeue();
+                System.out.println("One data:'"+ x +"' is removed from the front");
             }
             else
             {
                 System.out.println("The queue is already empty !!");
             }
-            //this.dequeue();
             this.menu();
         }
-        else if (input.equals("3")) {
+        else if (input.equals("3"))   //peek
+        {
             console.clear();
-            // System.out.print("Enter Integer number to add to the Stack: ");
-            // String push = scan.nextLine();
-            System.out.println("The front is :" + this.peek());
+            if(isEmpty())
+            {
+                System.out.println("The queue is empty to be peeked");
+            }else
+            {
+                System.out.println("The front is :" + this.peek());
+            }
             this.menu();
         }
-        else if (input.equals("4")) {
+        else if (input.equals("4"))  //isEmpty
+        {
             console.clear();
             // System.out.print("Enter Integer number to add to the Stack: ");
             // String push = scan.nextLine();
@@ -202,11 +209,12 @@ class queue
             }
             else
             {
-                System.out.println("The queue is not empty");
+                System.out.println("The queue has some data");
             }
             this.menu();
         }
-        else if (input.equals("5")) {
+        else if (input.equals("5"))   //isFull
+        {
             console.clear();
             // System.out.print("Enter Integer number to add to the Stack: ");
             // String push = scan.nextLine();
@@ -216,22 +224,22 @@ class queue
             }
             else
             {
-                System.out.println("The queue is not Full");
+                System.out.println("The queue does not have enough data");
             }
             this.menu();
         }
-        else if(input.equals("9"))
+        else if(input.equals("9"))  //display
         {
             console.clear();
             this.display();
             this.menu();
         }
-        else if(input.equals("0"))
+        else if(input.equals("0")) //exit
         {
             console.clear();
             return;
         }
-        else
+        else //if(input.equals("null"))
         {
             console.clear();
             System.out.print("Wrong option\n");
