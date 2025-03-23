@@ -139,13 +139,13 @@ class queue
     private void menu()
     {
         display();
-        System.out.print("1. enqueue\n");
+        System.out.print("0. Exit\n");
+	System.out.print("1. enqueue\n");
         System.out.print("2. dequeue\n");
         System.out.print("3. Peek\n");
         System.out.print("4. isEmpty\n");
         System.out.print("5. isFull\n");
-        System.out.print("null. ...\n");
-        //System.out.print("9. Display\n");
+        System.out.print("9. Display\n");
         input();
     }
 
