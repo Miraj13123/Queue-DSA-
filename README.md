@@ -4,7 +4,7 @@ The workspace contains two folders by default, where:
 - `lib`: the folder to maintain dependencies
 
 ## How to run in you [linux:bash] / [windows:cmd/pwsh]
-<span style="color:red">You must have Java Runtime Environment installed in your system</span>
+#You must have Java Runtime Environment installed in your system
 
 run these bat[windows] or bash[linux] script in this order
 - clear [ clears the previous compiled classes ]
